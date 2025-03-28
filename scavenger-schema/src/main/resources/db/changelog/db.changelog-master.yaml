@@ -11,3 +11,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/test-data-set-1.1.2.sql
       context: local
+  - include:
+      file: db/changelog/test-data-set-1.1.3.sql
+      context: local
