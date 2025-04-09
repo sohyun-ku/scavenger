@@ -102,13 +102,18 @@ public class InvocationTest extends AbstractWireMockTest {
 
         // when
         String stdout = agentRunner.call();
+        System.out.println(stdout);
 
         // then
         assertSampleAppOutput(stdout);
         verifyThat(
             calledMethod(GrpcAgentServiceGrpc.getSendInvocationDataPublicationMethod())
                 .withStatusOk()
-                .withRequest(pub -> pub.getEntryCount() == getInvocationsCount(stdout)));
+                .withRequest(pub -> {
+                    System.out.println("pub entryCount: " + pub.getEntryCount());
+                    System.out.println("invocationsCount: " + getInvocationsCount(stdout));
+                    return pub.getEntryCount() == getInvocationsCount(stdout);
+                }));
     }
 
     private static Pattern invoked(Method method) {

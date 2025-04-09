@@ -116,6 +116,11 @@ tasks.named<Test>("integrationTest") {
     systemProperty("integrationTest.scavengerAgent", tasks.shadowJar.get().outputs.files.asPath)
     systemProperty("integrationTest.classpath", "build/classes/java/integrationTest:$integrationTestRuntimeClasspath")
     systemProperty("integrationTest.javaPaths", javaPaths(8, 11, 17, 21))
+
+    testLogging {
+        events("passed", "skipped", "failed", "standardOut", "standardError")
+        showStandardStreams = true
+    }
 }
 
 tasks.withType<ProcessResources> {
