@@ -26,6 +26,7 @@ public class SampleApp {
     public static void main(String[] args) throws InterruptedException {
         log.info(SampleApp.class.getSimpleName() + " starts on Java " + System.getProperty("java.version"));
         SpringApplication.run(SampleApp.class, args);
+        Thread.sleep(5000);
         log.info("Exit");
     }
 
