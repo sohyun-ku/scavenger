@@ -102,6 +102,7 @@ public class InvocationTest extends AbstractWireMockTest {
 
         // when
         String stdout = agentRunner.call();
+        System.out.println(stdout);
 
         // then
         assertSampleAppOutput(stdout);
