@@ -37,9 +37,19 @@ public class SampleApp {
         return p1 + p2;
     }
 
+    private void sleep() {
+        // Sleep for integration test
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            //noOp
+        }
+    }
+
     @PostConstruct
     public void postConstruct() {
         log.info("2+2=" + add(2, 2));
         sampleService1.doSomething(1);
+        sleep();
     }
 }
