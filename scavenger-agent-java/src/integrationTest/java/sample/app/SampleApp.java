@@ -26,7 +26,6 @@ public class SampleApp {
     public static void main(String[] args) throws InterruptedException {
         log.info(SampleApp.class.getSimpleName() + " starts on Java " + System.getProperty("java.version"));
         SpringApplication.run(SampleApp.class, args);
-        sleep(); // Ensure time to connect with grpcMock when integration TC is running
         log.info("Exit");
     }
 
@@ -38,17 +37,18 @@ public class SampleApp {
         return p1 + p2;
     }
 
-    private static void sleep() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            //noOp
+    public static void intentionallySlowMethod() { // To prevent sampleApp from shutting down too quickly
+        double result = 0;
+        for (int i = 0; i < 200_000_000; i++) {
+            result += Math.sqrt(i);
         }
+        log.info("Computation result: " + result);
     }
 
     @PostConstruct
     public void postConstruct() {
         log.info("2+2=" + add(2, 2));
         sampleService1.doSomething(1);
+        intentionallySlowMethod();
     }
 }

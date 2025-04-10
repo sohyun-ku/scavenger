@@ -57,6 +57,7 @@ public class ScanTest extends AbstractWireMockTest {
                 "sample.app.NotServiceClass.doSomething(int)",
                 "sample.app.SampleApp(sample.app.SampleService1)",
                 "sample.app.SampleApp.add(int,int)",
+                "sample.app.SampleApp.intentionallySlowMethod()",
                 "sample.app.SampleApp.main(java.lang.String[])",
                 "sample.app.SampleApp.postConstruct()",
                 "sample.app.SampleAspect()",
