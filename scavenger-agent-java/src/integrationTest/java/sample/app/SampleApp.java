@@ -37,9 +37,18 @@ public class SampleApp {
         return p1 + p2;
     }
 
+    public static void intentionallySlowMethod() { // To prevent sampleApp from shutting down too quickly
+        double result = 0;
+        for (int i = 0; i < 1_000_000_000; i++) {
+            result += Math.sqrt(i);
+        }
+        log.info("Computation result: " + result);
+    }
+
     @PostConstruct
     public void postConstruct() {
         log.info("2+2=" + add(2, 2));
         sampleService1.doSomething(1);
+        intentionallySlowMethod();
     }
 }
