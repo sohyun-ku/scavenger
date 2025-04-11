@@ -39,7 +39,7 @@ public class SampleApp {
 
     public static void intentionallySlowMethod() { // To prevent sampleApp from shutting down too quickly
         double result = 0;
-        for (int i = 0; i < 1_00_000_000; i++) {
+        for (int i = 0; i < 1_000_000_000; i++) {
             result += Math.sqrt(i);
         }
         log.info("Computation result: " + result);
