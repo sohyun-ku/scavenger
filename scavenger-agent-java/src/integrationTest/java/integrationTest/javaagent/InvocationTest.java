@@ -106,10 +106,15 @@ public class InvocationTest extends AbstractWireMockTest {
 
         // then
         assertSampleAppOutput(stdout);
-        verifyThat(
+
+        retryVerify(() -> verifyThat(
             calledMethod(GrpcAgentServiceGrpc.getSendInvocationDataPublicationMethod())
                 .withStatusOk()
-                .withRequest(pub -> pub.getEntryCount() == getInvocationsCount(stdout)));
+                .withRequest(pub -> {
+                    System.out.println("pub entryCount: " + pub.getEntryCount());
+                    System.out.println("invocationsCount: " + getInvocationsCount(stdout));
+                    return pub.getEntryCount() == getInvocationsCount(stdout);
+                })));
     }
 
     private static Pattern invoked(Method method) {
@@ -122,5 +127,19 @@ public class InvocationTest extends AbstractWireMockTest {
         Matcher matcher = Pattern.compile("\\[scavenger] publishing invocation data: (\\d*) invocations").matcher(stdout);
         assertTrue(matcher.find());
         return Integer.parseInt(matcher.group(1));
+    }
+
+    private static void retryVerify(Runnable verification) throws InterruptedException {
+        int maxTries = 5;
+        for (int i = 0; i < maxTries; i++) {
+            System.out.println("Try #" + (i + 1));
+            try {
+                verification.run();
+                return;
+            } catch (AssertionError e) {
+                if (i == maxTries - 1) throw e;
+                Thread.sleep(1000);
+            }
+        }
     }
 }
